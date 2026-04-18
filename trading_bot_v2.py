@@ -22,23 +22,42 @@ TOKEN = "8236374314:AAE5j6AJOBP5ilQ6OIMi8mNt9P-BuqG6tOw"
 CHAT_ID = "934029089"
 
 SYMBOLS = [
-    "SOL/USDT", "DOGE/USDT", "PEPE/USDT", "XRP/USDT", "APT/USDT",
-    "LTC/USDT", "AVAX/USDT", "TRX/USDT", "LINK/USDT", "POL/USDT",
-    "GMT/USDT", "SUI/USDT", "NEAR/USDT", "FTM/USDT", "INJ/USDT",
-    "FIL/USDT", "ATOM/USDT", "APE/USDT", "ETH/USDT", "BNB/USDT", "RENDER/USDT",
+    "SOL/USDT",
+    "DOGE/USDT",
+    "PEPE/USDT",
+    "XRP/USDT",
+    "APT/USDT",
+    "LTC/USDT",
+    "AVAX/USDT",
+    "TRX/USDT",
+    "LINK/USDT",
+    "POL/USDT",
+    "GMT/USDT",
+    "SUI/USDT",
+    "NEAR/USDT",
+    "FTM/USDT",
+    "INJ/USDT",
+    "FIL/USDT",
+    "ATOM/USDT",
+    "APE/USDT",
+    "ETH/USDT",
+    "BNB/USDT",
+    "RENDER/USDT",
 ]
 TIMEFRAME = "1h"
 HISTORY_LIMIT = 5000
 RETRAIN_INTERVAL = 43200  # 12 часов
 
 # Настройки обучения
-LOOKAHEAD_CANDLES = 12 
+LOOKAHEAD_CANDLES = 12
 
 # 🔥 КРИТИЧЕСКИЕ НАСТРОЙКИ ДЛЯ ПЛЮСА
-BASE_CONFIDENCE = 0.52  # V3: Снизили с 0.58 до 0.52. Рынок редко дает 58%+, лучше брать 53%+ чаще.
+BASE_CONFIDENCE = 0.52  # Повысили порог входа. Меньше сделок, но качественнее.
 MIN_EDGE_OVER_COST = 2.5  # Ожидаемая прибыль должна быть в 2.5 раза выше комиссии
 VOLATILITY_FLOOR = 0.0015  # Мин. волатильность (ATR%), чтобы покрыть спред+комиссию
-VOLATILITY_CEILING = 0.05   # Макс. волатильность (избегаем пампов/дампов с высоким риском)
+VOLATILITY_CEILING = (
+    0.05  # Макс. волатильность (избегаем пампов/дампов с высоким риском)
+)
 
 MODE_SCALP = "SCALP"
 MODE_IMPULSE = "IMPULSE"
@@ -58,8 +77,8 @@ USE_KELLY_FILTER = True
 USE_EXPECTED_VALUE_FILTER = True
 USE_VOLATILITY_FILTER = True
 
-QUALITY_FLOOR_SCALP = 0.60  
-QUALITY_FLOOR_IMPULSE = 0.62  
+QUALITY_FLOOR_SCALP = 0.60
+QUALITY_FLOOR_IMPULSE = 0.62
 
 # Риск-менеджмент
 RR_MIN = 1.8  # Минимальное соотношение Risk/Reward
@@ -77,11 +96,29 @@ threshold_stats = {}
 last_train_time = 0
 
 FEATURES = [
-    "rsi", "rsi_lag_1", "rsi_lag_2", "adx", "bb_width_pct", "bb_pos",
-    "atr_pct", "ema_dist_20", "ema_dist_50", "ema_dist_200", "log_ret",
-    "log_ret_lag1", "log_ret_lag2", "vol_rel", "volume_shock", "trend_slope",
-    "rsi_adx_interaction", "trend_ema50", "atr_regime", "momentum_3",
-    "momentum_6", "vwap_dist", "vol_zscore",
+    "rsi",
+    "rsi_lag_1",
+    "rsi_lag_2",
+    "adx",
+    "bb_width_pct",
+    "bb_pos",
+    "atr_pct",
+    "ema_dist_20",
+    "ema_dist_50",
+    "ema_dist_200",
+    "log_ret",
+    "log_ret_lag1",
+    "log_ret_lag2",
+    "vol_rel",
+    "volume_shock",
+    "trend_slope",
+    "rsi_adx_interaction",
+    "trend_ema50",
+    "atr_regime",
+    "momentum_3",
+    "momentum_6",
+    "vwap_dist",
+    "vol_zscore",
 ]
 
 
@@ -119,13 +156,22 @@ def default_trade_stats():
     return {
         "last_updated": utc_now_iso(),
         "summary": {
-            "total_trades": 0, "wins": 0, "losses": 0, "win_rate": 0.0,
-            "gross_pnl_pct_sum": 0.0, "net_pnl_pct_sum": 0.0,
-            "avg_net_pnl_pct": 0.0, "total_cost_pct": 0.0,
-            "profit_factor": None, "open_positions": 0,
+            "total_trades": 0,
+            "wins": 0,
+            "losses": 0,
+            "win_rate": 0.0,
+            "gross_pnl_pct_sum": 0.0,
+            "net_pnl_pct_sum": 0.0,
+            "avg_net_pnl_pct": 0.0,
+            "total_cost_pct": 0.0,
+            "profit_factor": None,
+            "open_positions": 0,
         },
-        "by_symbol": {}, "by_mode": {}, "open_positions": {},
-        "recent_signals": [], "closed_trades": [],
+        "by_symbol": {},
+        "by_mode": {},
+        "open_positions": {},
+        "recent_signals": [],
+        "closed_trades": [],
     }
 
 
@@ -160,8 +206,13 @@ def append_recent_signal(event):
 
 def build_bucket_stats():
     return {
-        "total_trades": 0, "wins": 0, "losses": 0, "win_rate": 0.0,
-        "gross_pnl_pct_sum": 0.0, "net_pnl_pct_sum": 0.0, "avg_net_pnl_pct": 0.0,
+        "total_trades": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_rate": 0.0,
+        "gross_pnl_pct_sum": 0.0,
+        "net_pnl_pct_sum": 0.0,
+        "avg_net_pnl_pct": 0.0,
     }
 
 
@@ -216,8 +267,12 @@ def recalculate_trade_stats():
     for container in (by_symbol, by_mode):
         for bucket in container.values():
             if bucket["total_trades"] > 0:
-                bucket["win_rate"] = round(bucket["wins"] / bucket["total_trades"] * 100, 2)
-                bucket["avg_net_pnl_pct"] = round(bucket["net_pnl_pct_sum"] / bucket["total_trades"], 4)
+                bucket["win_rate"] = round(
+                    bucket["wins"] / bucket["total_trades"] * 100, 2
+                )
+                bucket["avg_net_pnl_pct"] = round(
+                    bucket["net_pnl_pct_sum"] / bucket["total_trades"], 4
+                )
 
     summary["open_positions"] = len(
         [state for state in trade_states.values() if state.get("active")]
@@ -234,14 +289,18 @@ def snapshot_open_positions():
             continue
         trade_id = ensure_trade_id(sym, state)
         snapshot[trade_id] = {
-            "trade_id": trade_id, "symbol": sym,
+            "trade_id": trade_id,
+            "symbol": sym,
             "mode": normalize_mode(state.get("mode")),
             "entry": state.get("entry"),
             "entry_prob": state.get("entry_prob"),
             "quality_score": state.get("quality_score"),
-            "expected_net_edge_pct": round(float(state.get("expected_net_edge", 0.0)) * 100, 4),
+            "expected_net_edge_pct": round(
+                float(state.get("expected_net_edge", 0.0)) * 100, 4
+            ),
             "reward_risk": round(float(state.get("reward_risk", 0.0)), 3),
-            "tp": state.get("tp"), "sl": state.get("sl"),
+            "tp": state.get("tp"),
+            "sl": state.get("sl"),
             "entry_time": datetime.fromtimestamp(
                 state.get("last_entry_ts", time.time()), tz=timezone.utc
             ).isoformat(timespec="seconds"),
@@ -266,12 +325,17 @@ def persist_trade_stats():
 def register_trade_open(sym, state):
     trade_id = ensure_trade_id(sym, state)
     event = {
-        "time": utc_now_iso(), "type": "OPEN", "trade_id": trade_id,
-        "symbol": sym, "mode": normalize_mode(state.get("mode")),
+        "time": utc_now_iso(),
+        "type": "OPEN",
+        "trade_id": trade_id,
+        "symbol": sym,
+        "mode": normalize_mode(state.get("mode")),
         "entry": state.get("entry"),
         "entry_prob": round(float(state.get("entry_prob", 0.0)), 4),
         "quality_score": round(float(state.get("quality_score", 0.0)), 4),
-        "expected_net_edge_pct": round(float(state.get("expected_net_edge", 0.0)) * 100, 4),
+        "expected_net_edge_pct": round(
+            float(state.get("expected_net_edge", 0.0)) * 100, 4
+        ),
         "reward_risk": round(float(state.get("reward_risk", 0.0)), 3),
     }
     append_recent_signal(event)
@@ -281,16 +345,20 @@ def register_trade_open(sym, state):
 def register_trade_close(sym, state, exit_price, gross_pnl_pct, net_pnl_pct, reason):
     trade_id = ensure_trade_id(sym, state)
     closed_trade = {
-        "trade_id": trade_id, "symbol": sym,
+        "trade_id": trade_id,
+        "symbol": sym,
         "mode": normalize_mode(state.get("mode")),
-        "entry": state.get("entry"), "exit": exit_price,
+        "entry": state.get("entry"),
+        "exit": exit_price,
         "entry_time": datetime.fromtimestamp(
             state.get("last_entry_ts", time.time()), tz=timezone.utc
         ).isoformat(timespec="seconds"),
         "exit_time": utc_now_iso(),
         "entry_prob": round(float(state.get("entry_prob", 0.0)), 4),
         "quality_score": round(float(state.get("quality_score", 0.0)), 4),
-        "expected_net_edge_pct": round(float(state.get("expected_net_edge", 0.0)) * 100, 4),
+        "expected_net_edge_pct": round(
+            float(state.get("expected_net_edge", 0.0)) * 100, 4
+        ),
         "reward_risk": round(float(state.get("reward_risk", 0.0)), 3),
         "gross_pnl_pct": round(float(gross_pnl_pct), 4),
         "net_pnl_pct": round(float(net_pnl_pct), 4),
@@ -298,11 +366,17 @@ def register_trade_close(sym, state, exit_price, gross_pnl_pct, net_pnl_pct, rea
         "reason": reason,
     }
     trade_stats["closed_trades"].append(closed_trade)
-    append_recent_signal({
-        "time": utc_now_iso(), "type": "CLOSE", "trade_id": trade_id,
-        "symbol": sym, "mode": normalize_mode(state.get("mode")),
-        "net_pnl_pct": round(float(net_pnl_pct), 4), "reason": reason,
-    })
+    append_recent_signal(
+        {
+            "time": utc_now_iso(),
+            "type": "CLOSE",
+            "trade_id": trade_id,
+            "symbol": sym,
+            "mode": normalize_mode(state.get("mode")),
+            "net_pnl_pct": round(float(net_pnl_pct), 4),
+            "reason": reason,
+        }
+    )
     export_stats_to_csv()
     persist_trade_stats()
 
@@ -377,7 +451,7 @@ def add_indicators(df):
     df["atr_regime"] = df["atr_pct"] / df["atr_pct"].rolling(100).mean()
     df["momentum_3"] = df["close"] / df["close"].shift(3) - 1
     df["momentum_6"] = df["close"] / df["close"].shift(6) - 1
-    
+
     typical_price = (df["high"] + df["low"] + df["close"]) / 3
     vwap = (typical_price * df["volume"]).rolling(window=200).sum() / (
         df["volume"].rolling(window=200).sum() + 1e-9
@@ -501,10 +575,14 @@ def train_model(sym):
         df["target"] = targets
 
         pos = int(df["target"].sum())
-        print(f"  🎯 {sym}: Сформировано {len(targets)} таргетов (успешных: {pos}, {pos/max(1,len(targets))*100:.1f}%)")
+        print(
+            f"  🎯 {sym}: Сформировано {len(targets)} таргетов (успешных: {pos}, {pos/max(1,len(targets))*100:.1f}%)"
+        )
 
         if pos < 30:
-            print(f"  ❌ {sym}: Слишком мало успешных исходов для обучения (нужно >30).")
+            print(
+                f"  ❌ {sym}: Слишком мало успешных исходов для обучения (нужно >30)."
+            )
             return None
 
         X, y = df[FEATURES], df["target"]
@@ -537,12 +615,15 @@ def train_model(sym):
             print(f"  📉 {sym} rejected (AUC={score:.3f} | BaseWR={base_wr:.2f})")
             return None
 
-        print(f"  ✅ {sym} ГОТОВА | AUC: {score:.3f} | BaseWR: {base_wr:.2f} | Pos: {pos}")
+        print(
+            f"  ✅ {sym} ГОТОВА | AUC: {score:.3f} | BaseWR: {base_wr:.2f} | Pos: {pos}"
+        )
         return model
 
     except Exception as e:
         print(f"  💥 {sym}: КРИТИЧЕСКАЯ ОШИБКА ОБУЧЕНИЯ -> {e}")
         import traceback
+
         traceback.print_exc()
         return None
 
@@ -566,7 +647,11 @@ def optimize_threshold(sym, model):
     bars = fetch_ohlcv_full(sym, TIMEFRAME, 4000)
     if len(bars) < 500:
         best_thresholds[sym] = BASE_CONFIDENCE
-        threshold_stats[sym] = {"avg_net_return": 0.0, "trade_count": 0, "win_rate": 0.0}
+        threshold_stats[sym] = {
+            "avg_net_return": 0.0,
+            "trade_count": 0,
+            "win_rate": 0.0,
+        }
         return
 
     df = pd.DataFrame(
@@ -597,7 +682,7 @@ def optimize_threshold(sym, model):
             # 🔥 ФИЛЬТР: Только сделки с положительным матожиданием
             if trade_return > ROUND_TRIP_COST_RATE:
                 returns.append(trade_return)
-            
+
             next_allowed_idx = idx + 3
 
         if len(returns) < 10:  # Нужно минимум сделок для статистики
@@ -605,11 +690,11 @@ def optimize_threshold(sym, model):
 
         avg_net = float(np.mean(returns))
         win_rate = float(np.mean(np.array(returns) > 0))
-        
+
         # 🔥 КЛЮЧЕВОЙ ФИЛЬТР: Средняя прибыль должна превышать комиссии в MIN_EDGE_OVER_COST раз
         if avg_net <= ROUND_TRIP_COST_RATE * MIN_EDGE_OVER_COST:
             continue
-            
+
         score = avg_net * np.sqrt(len(returns))
 
         if best_result is None or score > best_result["score"]:
@@ -623,7 +708,11 @@ def optimize_threshold(sym, model):
 
     if best_result is None:
         best_thresholds[sym] = BASE_CONFIDENCE
-        threshold_stats[sym] = {"avg_net_return": 0.0, "trade_count": 0, "win_rate": 0.0}
+        threshold_stats[sym] = {
+            "avg_net_return": 0.0,
+            "trade_count": 0,
+            "win_rate": 0.0,
+        }
         print(f"Threshold fallback for {sym}: {BASE_CONFIDENCE:.2f}")
         return
 
@@ -715,12 +804,12 @@ async def process_market():
                 bars = exchange.fetch_ohlcv(sym, timeframe=TIMEFRAME, limit=500)
                 if bars and len(bars) > 0:
                     df = pd.DataFrame(
-                        bars, columns=["timestamp", "open", "high", "low", "close", "volume"],
+                        bars,
+                        columns=["timestamp", "open", "high", "low", "close", "volume"],
                     )
                     live_data_cache[sym] = add_indicators(df)
                     ok_cnt += 1
-                    if DEBUG_FILTERS:
-                        print(f"  ✅ {sym}: {len(df)} строк в кэше")
+
             except Exception as e:
                 if DEBUG_FILTERS:
                     print(f"  ❌ {sym}: {e}")
@@ -745,7 +834,9 @@ async def process_market():
 
             df_live = live_data_cache.get(sym)
             if df_live is not None:
-                is_exit, reason = check_emergency_exit(sym, state, df_live, models.get(sym))
+                is_exit, reason = check_emergency_exit(
+                    sym, state, df_live, models.get(sym)
+                )
                 if is_exit:
                     exit_reason = f"🚨 {reason}"
 
@@ -766,7 +857,9 @@ async def process_market():
                 await send_msg(
                     f"{exit_reason} {sym}\nPrice: {current_price:.5f}\nNet PnL: {net_pnl:.2f}%\nTime: {int(elapsed_min)}m"
                 )
-                register_trade_close(sym, state, current_price, gross_pnl, net_pnl, exit_reason)
+                register_trade_close(
+                    sym, state, current_price, gross_pnl, net_pnl, exit_reason
+                )
                 state["active"] = False
                 last_exit_times[sym] = time.time()
                 save_state(trade_states)
@@ -811,7 +904,7 @@ async def process_market():
 
             if prob <= min_prob:
                 now = time.time()
-                if now - last_debug_log.get(sym, 0) > 60:
+                if now - last_debug_log.get(sym, 0) > 60 and prob > min_prob:
                     print(f"⏭️ {sym}: Prob {prob:.3f} < {min_prob:.2f} (Req)")
                     last_debug_log[sym] = now
                 continue
@@ -820,7 +913,9 @@ async def process_market():
             if atr_pct < VOLATILITY_FLOOR or atr_pct > VOLATILITY_CEILING:
                 now = time.time()
                 if now - last_debug_log.get(sym, 0) > 60:
-                    print(f"⏭️ {sym}: ATR% {atr_pct:.4f} вне диапазона [{VOLATILITY_FLOOR}, {VOLATILITY_CEILING}]")
+                    print(
+                        f"⏭️ {sym}: ATR% {atr_pct:.4f} вне диапазона [{VOLATILITY_FLOOR}, {VOLATILITY_CEILING}]"
+                    )
                     last_debug_log[sym] = now
                 continue
 
@@ -833,15 +928,19 @@ async def process_market():
             tp_mult, sl_mult = (2.0, 1.0) if adx > 25 else (1.8, 0.9)
             tp_pct = tp_mult * atr_pct
             sl_pct = sl_mult * atr_pct
-            
+
             # Expected Value после комиссий
-            expected_value = (prob * tp_pct) - ((1 - prob) * sl_pct) - ROUND_TRIP_COST_RATE
-            
+            expected_value = (
+                (prob * tp_pct) - ((1 - prob) * sl_pct) - ROUND_TRIP_COST_RATE
+            )
+
             # 🔥 ГЛАВНЫЙ ФИЛЬТР: EV должен быть положительным и превышать комиссии в MIN_EDGE_OVER_COST раз
             if expected_value <= ROUND_TRIP_COST_RATE * MIN_EDGE_OVER_COST:
                 now = time.time()
                 if now - last_debug_log.get(sym, 0) > 60:
-                    print(f"⏭️ {sym}: EV {expected_value*100:.3f}% < мин.порог {ROUND_TRIP_COST_RATE * MIN_EDGE_OVER_COST * 100:.3f}%")
+                    print(
+                        f"⏭️ {sym}: EV {expected_value*100:.3f}% < мин.порог {ROUND_TRIP_COST_RATE * MIN_EDGE_OVER_COST * 100:.3f}%"
+                    )
                     last_debug_log[sym] = now
                 continue
 
@@ -855,9 +954,9 @@ async def process_market():
             mode = "IMPULSE" if adx > 25 else "SCALP"
             tp_price = price + (atr * tp_mult)
             sl_price = price - (atr * sl_mult)
-            
+
             reward_risk = tp_pct / (sl_pct + 1e-9)
-            
+
             # 🔥 ФИНАЛЬНАЯ ПРОВЕРКА RR
             if reward_risk < RR_MIN:
                 continue
