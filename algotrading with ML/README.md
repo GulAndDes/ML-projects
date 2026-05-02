@@ -1,5 +1,5 @@
 **predictcrypro.py**
-# Institutional-Grade ML Crypto Trading System (CatBoost + Walk-Forward Validation)
+# ML Crypto Trading System (CatBoost + Walk-Forward Validation)
 
 Market-neutral алгоритмическая торговая система, использующая ансамбли решающих деревьев (Gradient Boosting) для предсказания волатильно-скорректированной доходности криптовалют.
 
